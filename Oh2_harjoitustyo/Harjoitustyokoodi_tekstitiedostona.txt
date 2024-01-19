@@ -1,0 +1,764 @@
+package com.example.harjoitustyo;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+/**Luokka toteuttaa SäästöTavoite-tilin, jolla on
+ * käyttäjä nimi, tavoite, kuinka paljon tavoitetta on jäljellä, kuinka monesti tilille lisätään,
+ * päivämäärä jolloin tavoite pitää olla säästetty, aloituspäivä ja ainakun tiliä käytetään päiväys.
+ * @author Senja Moilanen
+ * @version 1.0
+ * 23.3.2023
+ */
+public class SaastoTavoite implements Serializable {
+    /**
+     * Käyttäjänimi merkkijonona
+     */
+    private String kayttaja;
+    /**
+     * Kuinka monesti tilille lisätään (Päivittain, viikoittain tai kuukausittain) merkkijonona
+     */
+    private String valinta;
+    /**
+     * Käyttäjän antama säästötavoite desimaalilukuna
+     */
+    private double tavoite;
+    /**
+     * Kuinka paljon tavoitetta on jäljellä sillä hetkellä desimaalilukuna
+     */
+    private double tavoitettaJaljella;
+    /**
+     * Päivämäärä johon asti on aikaa säästä LocalDate:na
+     */
+    private LocalDate  saastoAika;
+    /**
+     * Päivä jolloin säästäminen alkoi Localdate:na
+     */
+    private LocalDate saastopaivays;
+    /**
+     * Joka kerta, kun käyttäjä kirjautuu sisään LocalDate:na
+     */
+    private LocalDate eranPaivays;
+
+    /**
+     * Alustaja, joka luo Säästötilin annetulla käyttäjänimellä.
+     * @param kayttaja String kayttajanimi
+     */
+    public SaastoTavoite(String kayttaja){
+        this.kayttaja = kayttaja;
+    }
+
+    /**
+     * Asettaa säästö tavoitteen
+     * @param tavoite double tilin tavoite
+     */
+
+    public void setTavoite(double tavoite) {
+        this.tavoite = tavoite;
+    }
+
+    /**
+     * Asettaa, kuinka paljon säästettävää on jäljellä
+     * @param tavoitettaJaljella double jäljellä oleva tavoite
+     */
+    public void setTavoitettaJaljella(double tavoitettaJaljella) {
+        this.tavoitettaJaljella =tavoitettaJaljella;
+    }
+
+    /**
+     * Palauttaa, kuinka paljon säästettävää on jäljellä
+     * @return double tavoitettaJaljella
+     */
+    public double getTavoitettaJaljella() {
+        return tavoitettaJaljella;
+    }
+
+    /**
+     * Asettaa päivän, jolloin tavoite pitää olla säästetty
+     * @param aika LocalDate
+     */
+
+    public void setSaastoAika(LocalDate aika) {
+        this.saastoAika = aika;
+    }
+
+    /**
+     * Asettaa päivän, milloin säästötavoite on luotu
+     * @param saastopaivays LocalDate
+     */
+    public void setSaastopaivays(LocalDate saastopaivays) {
+        this.saastopaivays = saastopaivays;
+    }
+
+    /**
+     * Asettaa, milloin käyttäjä kirjautuu ohjelmaan
+     * @param eranPaivays LocalDate
+     */
+    public void setEranPaivays(LocalDate eranPaivays) {
+        this.eranPaivays = eranPaivays;
+    }
+
+    /**
+     * Palauttaa säästö tavoitteen
+     * @return double tavoite
+     */
+
+    public double getTavoite() {
+        return tavoite;
+    }
+
+    /**
+     * Palauttaa päivän jolloin säästötavoite pitää olla säästetty
+     * @return LocalDate saastoAika
+     */
+    public LocalDate getSaastoAika() {
+        return saastoAika;
+    }
+
+    /**
+     * Palauttaa käyttäjän nimen
+     * @return String kayttaja
+     */
+
+    public String getKayttaja() {
+        return kayttaja;
+    }
+
+    /**
+     * Palauttaa päivän jolloin käyttäjä käyttää ohjelmaa
+     * @return LocalDate eranPaivays
+     */
+    public LocalDate getEranPaivays() {
+        return eranPaivays;
+    }
+
+    /**
+     * Palauttaa päivän jolloin säästötavoite aloitettiin
+     * @return LocalDate saastopaivays
+     */
+    public LocalDate getSaastopaivays() {
+        return saastopaivays;
+    }
+
+    /**
+     * Asettaa, kuinka usein säästöihin lisätään (viikottain, päivittäin tai kuukausittain)
+     * @param valinta String
+     */
+    public void setValinta(String valinta) {
+        this.valinta = valinta;
+    }
+
+    /**
+     * Palauttaa, kuinka usein käyttäjä lisää säästöihin
+     * @return String valinta
+     */
+
+    public String getValinta() {
+        return valinta;
+    }
+
+
+    /**
+     * Jos käyttäjä valitsi, että lisää päivittäin tilille, palauttaa tämä päivien määrän
+     * @return int paivienMaara
+     */
+    public int palautaPaivienMaara(){
+        int paivienMaara = Math.toIntExact(ChronoUnit.DAYS.between(eranPaivays, saastoAika));
+        return paivienMaara;
+    }
+    /**
+     * Jos käyttäjä valitsi, että lisää kuukausittain tilille, palauttaa tämä kuukausien määrän
+     * @return int kuukausienMaara
+     */
+    public int palautaKuukausienMaara(){
+        int KuukausienMaara = Math.toIntExact(ChronoUnit.MONTHS.between(eranPaivays, saastoAika));
+        return KuukausienMaara;
+    }
+    /**
+     * Jos käyttäjä valitsi, että lisää viikottain tilille, palauttaa tämä viikkojen määrän
+     * @return int viikkojenMaara
+     */
+    public int palautaViikojenMaara(){
+        int viikkojenMaara = Math.toIntExact(ChronoUnit.WEEKS.between(eranPaivays, saastoAika));
+        return viikkojenMaara;
+    }
+
+    /**
+     * Laskee kuinka paljon käyttäjän pitää lisätä tilille, että tavoite täyttyisi ajoissa
+     * @param aikaMaara int aikaMaara
+     * @return double kuinkaPaljon
+     */
+    public double laskeKeskiverto(int aikaMaara){
+        double kuinkaPaljon = tavoitettaJaljella/aikaMaara;
+        return kuinkaPaljon;
+    }
+
+    /**
+     * Laskee kuinka paljon tavoitetta on jäljellä.
+     * @param lisaa double
+     */
+    public void laskeTavoitettaJaljella(double lisaa){
+        tavoitettaJaljella -= lisaa;
+        setTavoitettaJaljella(tavoitettaJaljella);
+    }
+}
+
+
+package com.example.harjoitustyo;
+
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+import java.io.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+/**
+ * SaastoTavoite-tilia kasittelevan luokan kayttoliittyma, jolla voidaan
+ * kasitella eri saastotileja: Voidaan luoda uusi saastotili, tarkastella saastotilia tai lisata saastotilille
+ * @author Senja Moilanen
+ * @version 1.0
+ * 23.3.2023
+ */
+public class SaastoTavoiteOhjelma extends Application {
+    /**
+     * Oliotiedosto
+     */
+    private File saastoTiedosto = new File("saastoTavoite.dat");
+    /**
+     * Painike, palauttaa kayttajan takaisin alkuikkunaan
+     */
+    private Button lopeta = new Button("Valmis");
+    /**
+     * Kayttajanimen tekstikentta
+     */
+    private TextField tfkayttaja = new TextField();
+    /**
+     * Tavoitteen ja lisattavan summan tekstikentta.
+     */
+    private TextField tfSaastoTavoite = new TextField();
+    /**
+     * Kalenteri, jolla voi valita paivamaaran jolloin saastotavoite pitaa olla kerattyna.
+     */
+    private DatePicker saastoAika;
+    /**
+     * Painike, jolla kayttaja voi luoda uuden saastoTavoite-tilin
+     */
+    private Button aloitaSaastaminen = new Button();
+    /**
+     * Olio lista, joka kasittelee eri kayttajia ja niiden tietoja
+     */
+    private ArrayList<SaastoTavoite> kayttajat = new ArrayList<>();
+    /**
+     * Valinta ruutu, kuinka monta kertaa kayttaja haluaa keskimaarin lisata saastoihin (Paivittain, viikottain, kuukausittain)
+     */
+    private ChoiceBox maaraValinta;
+    /**
+     * Kayttajan paikka Arraylistassa
+     */
+    private int kayttajaIndex;
+    /**
+     * Luokan saastotavoite olio, jossa kayttajan tietoja kasittellaan
+     */
+    private SaastoTavoite uusiKayttaja = new SaastoTavoite(tfkayttaja.getText());
+    /**
+     * Tavoitteen tayttyessa painike, jolla kayttaja voi luoda uuden tavoitteen samalla ninmella
+     */
+    private Button uusiSaastoTavoite = new Button("Uusi säästötavoite!");
+    /**
+     * Painike, jolla kayttaja voi poistaa tilin, kun tavoite on tayttynyt
+     */
+    private Button poistaKayttaja= new Button("Poista käyttäjä");
+
+    /**
+     * Ohjelmaikkuna kaynnistys ja erillaisia ohjelman toiminnallisuuksia
+     * @param primarystage Stage
+     * @throws Exception
+     */
+
+    @Override
+    public void start(Stage primarystage) throws Exception {
+        //Annetaan tekstikentalle kenttiin oletusarvot
+        tfkayttaja.setText("Käyttäjänimi");
+        tfSaastoTavoite.setText("0");
+        //Luodaan tiedosto, jos ei sita ole olemassa.
+        avaaTiedosto();
+        if (saastoTiedosto.length() != 0) {
+            lueTiedot();
+        }
+        //Lisataan ensimmainen tapahtuma
+        //Ikkunan asettelu maaritty siten, mitä ohjelma tai kayttaja tekee/loytaa.
+        tfkayttaja.setOnAction(event -> {
+            //Jos käyttäjää ei löydy tai tiedosto on tyhjä
+            //Aukeaa uusiKayttaja-asettelu
+            if ((saastoTiedosto.length() == 0) || (equals() == false)) {
+                primarystage.setScene(uusiKayttjaNaytto());
+                aloitaSaastaminen.setOnAction(e -> {
+                    tallennaKayttajanTiedot();
+                    tallennaTiedot();
+                    kayttajat.clear();
+                    try {
+                        start(primarystage);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+                //Jos käyttäjä löytyy, jatkaa ohjelma tästä
+            } else if (equals() == true) {
+                //Tarkistaa, onko savutus täyttynyt
+                if (onkoSaavutusTaytetty() == true) {
+                    primarystage.setScene(tavoiteSaavutettu());
+                }
+                onkoSaavutusTaytetty();
+                    tfSaastoTavoite.setOnAction(e -> {
+                        double tavoite = Double.parseDouble(tfSaastoTavoite.getText());
+                        uusiKayttaja.laskeTavoitettaJaljella(tavoite);
+                        onkoSaavutusTaytetty();
+                        //Jos saavutus on täyttynyt aukeaa onnittelu-ikkuna
+                        if (onkoSaavutusTaytetty() == true) {
+                            primarystage.setScene(tavoiteSaavutettu());
+                            uusiSaastoTavoite.setOnAction (uusiSaasto -> {
+                                primarystage.setScene(uusiKayttjaNaytto());
+                                //Jos käyttäjä valitsee, tekevänsä uuden säästö tavoitteen vaihtuu ikkuna luo uusi käyttäjä-ikkunaan
+                                aloitaSaastaminen.setOnAction( uusi -> {
+                                    kayttajat.remove(kayttajaIndex);
+                                    kayttajat.remove(tfkayttaja);
+                                    tallennaKayttajanTiedot();
+                                    tallennaTiedot();
+                                    kayttajat.clear();
+                                    equals();
+                                    try {
+                                        start(primarystage);
+                                    } catch (Exception ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                });
+                            });
+                            //Jos käyttäjä päättää poistaa käyttäjänsä, aukeaa alkuikkuna
+                            poistaKayttaja.setOnAction(poista -> {
+                                kayttajat.remove(kayttajaIndex);
+                                kayttajat.remove(tfkayttaja);
+                                tallennaTiedot();
+                                kayttajat.clear();
+                                equals();
+                                try {
+                                    start(primarystage);
+                                } catch (Exception ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                            });
+                        } else{
+                            primarystage.setScene(naytaKayttajanTiedot());
+                        }
+                    });
+                    //lopeta painikkeesta käyttäjälle avautuu alkuikkuna-asettelu
+                    lopeta.setOnAction(event1 -> {
+                        tallennaTiedot();
+                        primarystage.setScene(aloitusNaytto());
+                    });
+                    primarystage.setScene(naytaKayttajanTiedot());
+
+            }
+        });
+        primarystage.setTitle("Säästöohjelma");
+        primarystage.setScene(aloitusNaytto());
+        primarystage.show();
+    }
+
+    /**
+     * Metodi lukee ja tallentaa oliotiedoston Arraylistaan
+     */
+    public void lueTiedot() {
+        try {
+            FileInputStream fis = new FileInputStream(saastoTiedosto);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            this.kayttajat = (ArrayList<SaastoTavoite>) ois.readObject();
+            ois.close();
+            fis.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Metodi katsoo onko käyttäjää jo olemassa
+     * @return boolean loytyiko
+     */
+    public boolean equals() {
+        boolean loytyiko = false;
+        try {
+            for (int i = 0; i < kayttajat.size(); i++) {
+                if (kayttajat.get(i).getKayttaja().equals(tfkayttaja.getText())) {
+                    loytyiko = true;
+                    kayttajaIndex = i;
+                }
+            }
+        } catch (Exception e) {
+            loytyiko = false;
+            e.printStackTrace();
+        }
+        return loytyiko;
+    }
+
+    /**
+     * Metodi tallentaa uudet käyttäjätiedot listaan.
+     */
+    public void tallennaKayttajanTiedot() {
+        double tavoite = Double.parseDouble(tfSaastoTavoite.getText());
+        SaastoTavoite uusiKayttaja = new SaastoTavoite(tfkayttaja.getText());
+        uusiKayttaja.setTavoite(tavoite);
+        uusiKayttaja.setTavoitettaJaljella(tavoite);
+        uusiKayttaja.setSaastoAika(saastoAika.getValue());
+        String valinta = String.valueOf(maaraValinta.getValue());
+        uusiKayttaja.setValinta(valinta);
+        LocalDate erapaivays = LocalDate.now();
+        uusiKayttaja.setEranPaivays(erapaivays);
+        kayttajat.add(uusiKayttaja);
+    }
+
+    /**
+     * Metodi luo uuden käyttäjä-ikkunan asettelun
+     * @return Scene kehys
+     */
+    public Scene uusiKayttjaNaytto() {
+        //Perus asettelut
+        GridPane paneeli = new GridPane();
+        VBox hbox = new VBox(5);
+        paneeli.setHgap(5);
+        paneeli.setVgap(5);
+
+        //Ikkunan elementtien luomista ja asettelemista
+        Text tervetuloa = new Text("Aloita säästäminen " + tfkayttaja.getText() + "!");
+        tervetuloa.setFont(Font.font("Elephant", 18));
+        hbox.getChildren().add(tervetuloa);
+        Text saastoMaara= new Text("Paljonko haluat säästää? ");
+        saastoMaara.setFont(Font.font("Arial", 12));
+        paneeli.add(saastoMaara, 0, 1);
+        paneeli.add(tfSaastoTavoite, 1, 1);
+
+        //Päivämäärän valitseminen
+        saastoAika = new DatePicker();
+        //Asetetaan sallittu säästöaika vähintään kuukauden päähän
+        saastoAika.setValue(LocalDate.now().plusMonths(1));
+        //Asetetaan, että säästö aikaa ei voi valita, jos päivämäärään on alle kuukausi.
+        saastoAika.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate paivaMaara, boolean tyhja) {
+                super.updateItem(paivaMaara, tyhja);
+                LocalDate eiKaytetytPaivat = LocalDate.now().plusMonths(1);
+
+                setDisable(tyhja || paivaMaara.compareTo(eiKaytetytPaivat) < 0 );
+            }
+        });
+
+        Text saastoAikeTeksti = new Text("Mihin asti sinulla on aikaa säästää?");
+        saastoAikeTeksti.setFont(Font.font("Arial", 12));
+        paneeli.add(saastoAikeTeksti, 0, 2);
+        paneeli.add(saastoAika, 1, 2);
+
+        //Kuinka monta kertaa käyttäjä haluaa lisätä rahaa säästöön: Päivittäin, viikottain vai kuukausittain.
+        maaraValinta = new ChoiceBox<>(FXCollections.observableArrayList("Päivittäin", "Viikottain", "Kuukausittain"));
+        maaraValinta.getSelectionModel().selectFirst();
+        Text maaraValintaTeksti = new Text("Kuinka usein haluat lisätä säästöihin?");
+        maaraValintaTeksti.setFont(Font.font("Arial", 12));
+        paneeli.add(maaraValintaTeksti, 0, 3);
+        paneeli.add(maaraValinta, 1, 3);
+
+        //Ohjeita käyttäjälle
+        Text ohjeet = new Text("(Kun aloitat säästämisen,\nkirjaudu uudelleen sisään antamallasi nimellä)");
+        ohjeet.setFont(Font.font("Arial", 10));
+        paneeli.add(ohjeet, 0, 4);
+        aloitaSaastaminen = new Button("Aloita säästäminen!");
+        uusiKayttaja.setSaastopaivays(LocalDate.now());
+        paneeli.add(aloitaSaastaminen, 1, 4);
+        paneeli.setAlignment(Pos.CENTER);
+
+        //Lisätään ikkunalle taustakuva
+        Image image = new Image("file:src/saastoTausta.jpg");
+
+
+        BackgroundSize size = new BackgroundSize(BackgroundSize.AUTO,
+                BackgroundSize.AUTO,
+                false,
+                false,
+                true,
+                false);
+
+        Background background = new Background(new BackgroundImage(image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                size));
+
+        hbox.setBackground(background);
+        hbox.getChildren().add(paneeli);
+        hbox.setAlignment(Pos.CENTER);
+        Scene kehys = new Scene(hbox, 790, 560);
+        return kehys;
+    }
+
+    /**
+     * Metodi tarkistaa onko tiedostoa olemassa, jos ei se luo sen
+     */
+    public void avaaTiedosto() {
+        if (!saastoTiedosto.exists()) {
+            try {
+                saastoTiedosto.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    /**
+     * Metodi tallentaa muutet
+     */
+
+    public void tallennaTiedot() {
+        try {
+            FileOutputStream kirjota = new FileOutputStream("saastoTavoite.dat");
+            ObjectOutputStream stream = new ObjectOutputStream(kirjota);
+
+            stream.flush();
+            stream.writeObject(kayttajat);
+            stream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Onnitteluikkuna, kun käyttäjä on päässyt säästötavoitteeseensa
+     * @return Scene kehys
+     */
+    public Scene tavoiteSaavutettu(){
+        //Lisätään ikkunaan halutut elementit
+        GridPane paneeli = new GridPane();
+        VBox hbox = new VBox(10);
+        //käyttäjä, jonka säästötavoite täyttyi
+        uusiKayttaja = (SaastoTavoite) kayttajat.get(kayttajaIndex);
+
+        //Ikkunan elementit
+        Text onneksiOlkoon = new Text("Onneksi olkoon " + uusiKayttaja.getKayttaja() + "!");
+        onneksiOlkoon.setFont(Font.font("Elephant", 18));
+        hbox.getChildren().add(onneksiOlkoon);
+        Text saavutit = new Text("Saavutit säästötavoitteesi :)");
+        saavutit.setFont(Font.font("Arial", 15));
+        hbox.getChildren().add(saavutit);
+        Text haluatko = new Text("Haluatko aloittaa uuden säästötavoitteen vai poistaa käyttäjän?");
+        haluatko.setFont(Font.font("Arial", 15));
+
+        //Ikkunan elementtien asettelua itse ikkunaan
+        hbox.getChildren().add(haluatko);
+        paneeli.add(uusiSaastoTavoite, 0, 0);
+        paneeli.add(poistaKayttaja, 1,0);
+        paneeli.setAlignment(Pos.CENTER);
+        paneeli.setHgap(10);
+        hbox.getChildren().add(paneeli);
+
+        //Lisätään ikkunalle taustakuva
+        Image image = new Image("file:src/saastoTausta.jpg");
+
+
+        BackgroundSize size = new BackgroundSize(BackgroundSize.AUTO,
+                BackgroundSize.AUTO,
+                false,
+                false,
+                true,
+                false);
+
+        Background background = new Background(new BackgroundImage(image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                size));
+
+        hbox.setBackground(background);
+        hbox.setAlignment(Pos.CENTER);
+        Scene kehys = new Scene(hbox, 790, 560);
+        return kehys;
+    }
+
+    /**
+     * Alkuikkuna, jossa käyttäjä kirjautuu sisään käyttäjänimellä
+     * @return Scene kehys
+     */
+    public Scene aloitusNaytto(){
+        //Luodaan paneeli
+        GridPane paneeli = new GridPane();
+        paneeli.setHgap(2);
+        paneeli.setVgap(5);
+
+        //Luodaan halutut elementit ikkunaaan
+        Text teksti = new Text("Tervetuloa säästöohjelmaan!");
+        teksti.setFont(Font.font("Elephant", 18));
+        Text teksti2 = new Text("Anna käyttäjänimesi: ");
+        teksti2.setFont(Font.font("Arial", 15));
+        paneeli.add(teksti2, 0, 1);
+        paneeli.add(tfkayttaja, 1, 1);
+        Text ohje = new Text("tai jos haluat luoda uuden käyttäjän, anna uusi käyttäjänimi!");
+        ohje.setFont(Font.font("Arial", 15));
+        paneeli.setAlignment(Pos.CENTER);
+        Text ohje2 = new Text("Paina enter siirtyäksesi seuraavaan vaiheeseen!");
+        ohje2.setFont(Font.font("Arial", 15));
+        VBox hbox = new VBox(10);
+
+        //Asetetaan ikkunalle taustakuva
+        Image image = new Image("file:src/saastoTausta.jpg");
+
+
+        BackgroundSize size = new BackgroundSize(BackgroundSize.AUTO,
+                BackgroundSize.AUTO,
+                false,
+                false,
+                true,
+                false);
+
+        Background background = new Background(new BackgroundImage(image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                size));
+
+        hbox.setBackground(background);
+        hbox.getChildren().add(teksti);
+        hbox.setAlignment(Pos.TOP_CENTER);
+        hbox.getChildren().add(paneeli);
+        hbox.getChildren().add(ohje);
+        hbox.getChildren().add(ohje2);
+        hbox.setAlignment(Pos.CENTER);
+        Scene kehys = new Scene(hbox, 790, 560);
+        return kehys;
+    }
+
+    /**
+     * Käyttäjän omat sivut, jossa hän voi tarkastella säästöjänsä, lisätä säästöihin tai katsoa, kuinka paljon hänellä on aikaa säästää
+     * @return Scene kehys
+     */
+    public Scene naytaKayttajanTiedot() {
+        //Luodaan ikkunan asettelu
+        GridPane paneeli = new GridPane();
+        VBox hbox = new VBox(10);
+        tfSaastoTavoite.setText("0");
+        //Luodaan käyttäjän olio
+        uusiKayttaja = (SaastoTavoite) kayttajat.get(kayttajaIndex);
+        //Otetaan ylös heti päivämäärä, jolloin käyttäjä tarkastelee tietoja
+        LocalDate erapaivays = LocalDate.now();
+        uusiKayttaja.setEranPaivays(erapaivays);
+        Text tervetuloaKayttaja = new Text("Tervetuloa säästämään " + uusiKayttaja.getKayttaja() + "!");
+        tervetuloaKayttaja.setFont(Font.font("Elephant", 18));
+        hbox.getChildren().add(tervetuloaKayttaja);
+        //Lisätään mittari, joka kuvaa graafisesti säästöjen edistystä
+        double jaljellaTavoitteesta = ((uusiKayttaja.getTavoite() - uusiKayttaja.getTavoitettaJaljella())/uusiKayttaja.getTavoite());
+        ProgressBar edistysMittari = new ProgressBar(jaljellaTavoitteesta);
+        edistysMittari.setStyle("-fx-accent: salmon");
+        edistysMittari.setMaxSize(300, 400);
+        //Asetetaan, että mittari näyttää, kun käyttäjä on tavoitteensa puolivälissä
+        if (jaljellaTavoitteesta != 0.5){
+            Text jaljella = new Text(uusiKayttaja.getTavoite()-uusiKayttaja.getTavoitettaJaljella() + "€/" + uusiKayttaja.getTavoite()+"€ säästetty!");
+            jaljella.setFont(Font.font("Elephant", 15));
+            hbox.getChildren().add(jaljella);
+        } else if (jaljellaTavoitteesta == 0.5) {
+            Text jaljella = new Text("Puolivälissä!");
+            jaljella.setFont(Font.font("Elephant", 15));
+            hbox.getChildren().add(jaljella);
+        }
+        hbox.getChildren().add(edistysMittari);
+
+        //Riippuen käyttäjän valinnasta, ikkunasta löytyy, kuinka paljon aikaa ja kuinka paljon keskimäärin käyttäjän pitää säästää, jotta saavuttaa tavoitteensa.
+        if (uusiKayttaja.getValinta().equals("Viikottain")) {
+            Text aikaaJaljella = new Text("Tällä hetkellä sinulla on aikaa " + uusiKayttaja.palautaViikojenMaara() + " viikkoa!");
+            aikaaJaljella.setFont(Font.font("Arial", 15));
+            hbox.getChildren().add(aikaaJaljella);
+            String jaljella =String.format("%.2f", uusiKayttaja.laskeKeskiverto(uusiKayttaja.palautaViikojenMaara()));
+            Text pitaaSaastaaNoin = new Text("Sinun pitäisi säästää " + jaljella + "€ viikkossa, jotta pääset tavoitteeseesi");
+            pitaaSaastaaNoin.setFont(Font.font("Arial", 15));
+            hbox.getChildren().add(pitaaSaastaaNoin);
+        } else if (uusiKayttaja.getValinta().equals("Kuukausittain")) {
+            Text aikaaJaljella = new Text("Tällä hetkellä sinulla on aikaa " + uusiKayttaja.palautaKuukausienMaara() + " kuukautta!");
+            aikaaJaljella.setFont(Font.font("Arial", 15));
+            hbox.getChildren().add(aikaaJaljella);
+            String jaljella =String.format("%.2f", uusiKayttaja.laskeKeskiverto(uusiKayttaja.palautaKuukausienMaara()));
+            Text pitaaSaastaaNoin = new Text("Sinun pitäisi säästää " + jaljella + "€ kuukaudessa, jotta pääset tavoitteeseesi");
+            pitaaSaastaaNoin.setFont(Font.font("Arial", 15));
+            hbox.getChildren().add(pitaaSaastaaNoin);
+        } else if (uusiKayttaja.getValinta().equals("Päivittäin")) {
+            Text aikaaJaljella = new Text("Tällä hetkellä sinulla on aikaa " + uusiKayttaja.palautaPaivienMaara() + " päivää!");
+            aikaaJaljella.setFont(Font.font("Arial", 15));
+            hbox.getChildren().add(aikaaJaljella);
+            String jaljella =String.format("%.2f", uusiKayttaja.laskeKeskiverto(uusiKayttaja.palautaPaivienMaara()));
+            Text pitaaSaastaaNoin = new Text("Sinun pitäisi säästää " + jaljella + "€ päivässä, jotta pääset tavoitteeseesi");
+            pitaaSaastaaNoin.setFont(Font.font("Arial", 15));
+            hbox.getChildren().add(pitaaSaastaaNoin);
+        }
+        //Ohjeita, miten käyttäjä käyttää ohjelmaa
+        Text ohje = new Text("(Lisätäksesi tilille rahaa, kirjaa summa ja paina enter-nappia, tai jos haluat kirjautua ulos paina valmis-nappia!)");
+        ohje.setFont(Font.font("Arial", 10));
+        //Elementti, jolla käyttäjä voi lisätä rahaa tilille
+        Text kuinkaPaljon = new Text("Kuinka paljon haluat lisätä säästöihin?");
+        kuinkaPaljon.setFont(Font.font("Arial", 15));
+        paneeli.setHgap(10);
+        paneeli.add(kuinkaPaljon, 0, 3);
+        paneeli.add(tfSaastoTavoite, 1, 3);
+
+        hbox.getChildren().add(ohje);
+        hbox.getChildren().add(paneeli);
+        hbox.getChildren().add(lopeta);
+
+        //Lisätään ikkunan taustakuva
+        Image image = new Image("file:src/saastoTausta.jpg");
+
+
+        BackgroundSize size = new BackgroundSize(BackgroundSize.AUTO,
+                BackgroundSize.AUTO,
+                false,
+                false,
+                true,
+                false);
+
+        Background background = new Background(new BackgroundImage(image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                size));
+
+        hbox.setBackground(background);
+        paneeli.setAlignment(Pos.TOP_CENTER);
+        hbox.setAlignment(Pos.CENTER);
+        Scene kehys = new Scene(hbox, 790, 560);
+        uusiKayttaja.getTavoitettaJaljella();
+        return kehys;
+    }
+
+    /**
+     * Palauttaa eri boolean-arvoja siitä, onko käyttäjä saavuttanut Säästötavoitteensa.
+     * @return boolean saavutusTautetty
+     */
+    public boolean onkoSaavutusTaytetty(){
+        boolean saavutusTaytetty = false;
+        if(uusiKayttaja.getTavoitettaJaljella() <= 0){
+            saavutusTaytetty = true;
+        } else if (uusiKayttaja.getTavoitettaJaljella() > 0) {
+            saavutusTaytetty = false;
+        }
+        return saavutusTaytetty;
+    }
+
+    /**
+     * Pääohjelman "launch", eli ohjelman käynnistäjä
+     * @param args
+     */
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
+}
